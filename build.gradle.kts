@@ -33,6 +33,14 @@ dependencies {
 	implementation ("io.springfox:springfox-swagger-ui:3.0.0")
 	//
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	// Gson 추가
+	implementation("com.google.code.gson:gson:2.10.1")
+	//
+
+	// OKHttp 추가
+	implementation("com.squareup.okhttp3:okhttp:4.10.0")
+	//
+
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.springframework.boot:spring-boot-starter-tomcat")
