@@ -1,5 +1,6 @@
 package com.homework.server.homework_server
 
+import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
@@ -7,5 +8,7 @@ import org.springframework.boot.runApplication
 class HomeworkServerApplication
 
 fun main(args: Array<String>) {
-	runApplication<HomeworkServerApplication>(*args)
+	val springApplication: SpringApplication = SpringApplication(HomeworkServerApplication::class.java)
+	springApplication.setLogStartupInfo(false)
+	springApplication.run(*args)
 }
