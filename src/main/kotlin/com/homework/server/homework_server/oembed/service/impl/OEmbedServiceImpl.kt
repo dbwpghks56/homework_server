@@ -23,15 +23,24 @@ class OEmbedServiceImpl(
 
     @Cacheable("oEmbedCache")
     override fun getOEmbedInfo(url: String): OEmbedResponseDto? {
+        // OEmbed Provider 에 해당하는 값을 이미 조회해서 데이터를 가지고 있으면 다시 조회하지 않음
+        // 조회한 데이터가 없다면 다시 조회
         if (stack.isEmpty()) {
             stack = providerService.getProviders() ?: throw RestException(HttpStatus.BAD_REQUEST, "Provider를 가져올 수 없습니다.")
         }
+
+        // 가져온 provider 데이터와 대조하기 위해 사용자가 입력한 url 에 대한 도메인 데이터 가져오기
         val providerUrl: String = url.split("/")[2]
+        // 도메인 데이터 이용해서 해당 도메인에 관한 OEmbed provider 데이터 가져오기
         val providerData = stack.first { providerResponseDto: ProviderResponseDto -> providerResponseDto.provider_url?.contains(providerUrl)
             ?: throw  RestException(HttpStatus.NOT_FOUND, "Provider에 없는 자료입니다.") }
+
+        // endpoints 가 요소를 하나 가지고있는 배열이기 때문에 first 를 이용해서 OEmbed 엔드 포인트 가져오기
         var oEmbedUrl = providerData.endpoints?.first()?.url
 
+        // 엔드포인트를 가지고 있을 경우
         if (oEmbedUrl != null) {
+            // {format} 을 가지고 있으면 해당 값을 json 으로 바꾸고 아니라면 요청 url 에 json 추가해서 OEmbed api 요청
             if (oEmbedUrl.contains("{format}")){
                 oEmbedUrl = oEmbedUrl.replace("{format}", "json")
                 oEmbedUrl = "$oEmbedUrl/?url=$url"
@@ -45,9 +54,11 @@ class OEmbedServiceImpl(
                 .get()
                 .build()
 
+            // api 요청
             val resp = okHttp.newCall(request).execute()
 
             try {
+                // 요청 성공시 해당 Dto 로 역직렬화하여 반환
                 if (resp.isSuccessful) {
                     val responseBody = resp.body?.string()
 
