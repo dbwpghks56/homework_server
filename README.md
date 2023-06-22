@@ -30,6 +30,17 @@ HomeworkServerApplication.kt
 접근한 뒤 main 을 실행해주시면 됩니다. <br>
 build gradle 이 필요한 경우도 있습니다. <br>
 
+
+## Swagger
+```
+swagger (Api 명세) 접근 주소입니다.
+http://localhost:8090/api/v1/swagger-ui/index.html
+or
+http://127.0.0.1:8090/api/v1/swagger-ui/index.html
+
+```
+접속하면 Api 명세를 볼 수 있습니다.
+
 ### OkHttp      
 • OEmbed 를 이용해 사용자에게 받은 url에 대한 정보를 얻어야함으로 OkHttp 를 이용해 OEmbed에 요청을 보냅니다.    
 • OEmbed가 가지고 있는 url 정보들을 이용하기 위해서 OEmbed Provider 에 대한 정보를 조회해 가지고 있습니다.
