@@ -2,7 +2,7 @@
 
 ### Front Url
 https://homework-web.netlify.app <br>
-※ 아직 서버가 배포 되어있지 않기 때문에 로컬 환경에서 서버를 8090 포트로 실행한 뒤 OEmbed 가 지원하는 url을 입력하면 됩니다.
+※ 아직 서버가 배포 되어있지 않기 때문에 로컬 환경에서 서버를 8090 포트로 실행한 뒤 OEmbed 가 지원하는 url을 입력하시면 됩니다.
 
 ### Technologies used:
 
