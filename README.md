@@ -1,7 +1,8 @@
 # Homework_server
 
 ### Front Url
-https://homework-web.netlify.app
+https://homework-web.netlify.app <br>
+※ 아직 서버가 배포 되어있지 않기 때문에 로컬 환경에서 서버를 8090 포트로 실행한 뒤 OEmbed 가 지원하는 url을 입력하면 됩니다.
 
 ### Technologies used:
 
@@ -16,8 +17,8 @@ https://homework-web.netlify.app
 
 ### Swagger 3.0
 
-Swagger 를 추가해 Api 에대한 명세를 쉽게 눈으로 확인할 수 있도록 만듭니다.     
-@shema @Tag 등을 이용해서 swagger 에 대한 명세서를 더욱 구체적으로 작성합니다.
+Swagger 를 추가해 Api 에대한 명세를 쉽게 눈으로 확인할 수 있도록 만들었습다.     
+@shema @Tag 등을 이용해서 swagger 에 대한 명세서를 더욱 구체적으로 작성했습니다.
 
 ## Installation
 
@@ -30,6 +31,8 @@ $ git clone https://github.com/dbwpghks56/homework_server.git
 ```
 HomeworkServerApplication.kt
 ```
-접근한 뒤 main 을 실행해주면 됩니다. <br>
-build gradle 이 필요한 경우도 있습니다.
+기본 포트는 8090 으로 되어있습니다. Front 연결 포트이니 변경시 Api 호출이 안 될 가능성이 존재합니다. <br>
+접근한 뒤 main 을 실행해주시면 됩니다. <br>
+build gradle 이 필요한 경우도 있습니다. <br>
+
 
