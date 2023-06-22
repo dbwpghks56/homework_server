@@ -27,11 +27,11 @@ $ git clone https://github.com/dbwpghks56/homework_server.git
 ```
 
 ## Running the app
-
+기본 포트는 8090 으로 되어있습니다. Front 연결 포트이니 변경시 Api 호출이 안 될 가능성이 존재합니다. <br>
 ```
 HomeworkServerApplication.kt
 ```
-기본 포트는 8090 으로 되어있습니다. Front 연결 포트이니 변경시 Api 호출이 안 될 가능성이 존재합니다. <br>
+
 접근한 뒤 main 을 실행해주시면 됩니다. <br>
 build gradle 이 필요한 경우도 있습니다. <br>
 
