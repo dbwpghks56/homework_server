@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import com.homework.server.homework_server.boot.exception.RestException
 import com.homework.server.homework_server.oembed.dto.response.OEmbedResponseDto
 import com.homework.server.homework_server.oembed.service.OEmbedService
+import com.homework.server.homework_server.oembedprovider.dto.response.ProviderEndPointsDto
 import com.homework.server.homework_server.oembedprovider.dto.response.ProviderResponseDto
 import com.homework.server.homework_server.oembedprovider.service.ProviderService
 import okhttp3.OkHttp
@@ -30,10 +31,21 @@ class OEmbedServiceImpl(
         }
 
         // 가져온 provider 데이터와 대조하기 위해 사용자가 입력한 url 에 대한 도메인 데이터 가져오기
-        val providerUrl: String = url.split("/")[2]
+        var providerUrl: String = url.split("/")[2]
+
+        if (providerUrl.contains("www")) {
+            providerUrl = providerUrl.replace("www", "")
+        }
+
         // 도메인 데이터 이용해서 해당 도메인에 관한 OEmbed provider 데이터 가져오기
-        val providerData = stack.first { providerResponseDto: ProviderResponseDto -> providerResponseDto.provider_url?.contains(providerUrl)
-            ?: throw  RestException(HttpStatus.NOT_FOUND, "Provider에 없는 자료입니다.") }
+        val providerData = stack.firstOrNull { providerResponseDto ->
+            providerResponseDto.endpoints?.any { endpoint ->
+                endpoint.schemes?.any { schema ->
+                    schema.contains(providerUrl)
+                } == true
+            } == true
+        } ?: throw RestException(HttpStatus.NOT_FOUND, "Provider에 없는 자료입니다.")
+
 
         // endpoints 가 요소를 하나 가지고있는 배열이기 때문에 first 를 이용해서 OEmbed 엔드 포인트 가져오기
         var oEmbedUrl = providerData.endpoints?.first()?.url

@@ -41,11 +41,11 @@ data class OEmbedResponseDto(
     @Schema(
         description = "링크에 대한 내용을 게시할 때 쓰는 html의 넓이"
     )
-    val width: Int? = null,
+    val width: Any? = null,
     @Schema(
         description = "링크에 대한 내용을 게시할 때 쓰는 html의 높이"
     )
-    val height: Int? = null,
+    val height: Any? = null,
     val duration: Int? = null,
     @Schema(
         description = "링크에 대한 내용의 설명"
@@ -58,11 +58,11 @@ data class OEmbedResponseDto(
     @Schema(
         description = "링크에 대한 내용의 썸네일 넓이"
     )
-    val thumbnail_width: Int? = null,
+    val thumbnail_width: Any? = null,
     @Schema(
         description = "링크에 대한 내용의 썸네일 높이"
     )
-    val thumbnail_height: Int? = null,
+    val thumbnail_height: Any? = null,
     val thumbnail_url_with_play_button: String? = null,
     @Schema(
         description = "링크에 대한 내용의 업로드 일"
