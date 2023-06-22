@@ -4,30 +4,29 @@ import com.google.gson.Gson
 import com.homework.server.homework_server.boot.exception.RestException
 import com.homework.server.homework_server.oembed.dto.response.OEmbedResponseDto
 import com.homework.server.homework_server.oembed.service.OEmbedService
-import com.homework.server.homework_server.oembedprovider.dto.response.ProviderEndPointsDto
 import com.homework.server.homework_server.oembedprovider.dto.response.ProviderResponseDto
 import com.homework.server.homework_server.oembedprovider.service.ProviderService
-import okhttp3.OkHttp
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import org.springframework.cache.annotation.CachePut
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import java.lang.Exception
-import java.util.function.Predicate
 
 @Service
 class OEmbedServiceImpl(
     private val providerService: ProviderService
 ):OEmbedService {
-    var stack: List<ProviderResponseDto> = emptyList()
+    var providerStack: List<ProviderResponseDto> = emptyList()
 
-    @Cacheable("oEmbedCache")
+    //key 는 매개변수로 지정 unless 를 이용해 결괏값이 null이면 저장하지 않음
+    @Cacheable(value = ["oEmbedCache"], key = "#url", unless = "#result == null")
     override fun getOEmbedInfo(url: String): OEmbedResponseDto? {
         // OEmbed Provider 에 해당하는 값을 이미 조회해서 데이터를 가지고 있으면 다시 조회하지 않음
         // 조회한 데이터가 없다면 다시 조회
-        if (stack.isEmpty()) {
-            stack = providerService.getProviders() ?: throw RestException(HttpStatus.BAD_REQUEST, "Provider를 가져올 수 없습니다.")
+        if (providerStack.isEmpty()) {
+            providerStack = providerService.getProviders() ?: throw RestException(HttpStatus.BAD_REQUEST, "Provider를 가져올 수 없습니다.")
         }
 
         // 가져온 provider 데이터와 대조하기 위해 사용자가 입력한 url 에 대한 도메인 데이터 가져오기
@@ -38,7 +37,7 @@ class OEmbedServiceImpl(
         }
 
         // 도메인 데이터 이용해서 해당 도메인에 관한 OEmbed provider 데이터 가져오기
-        val providerData = stack.firstOrNull { providerResponseDto ->
+        val providerData = providerStack.firstOrNull { providerResponseDto ->
             providerResponseDto.endpoints?.any { endpoint ->
                 endpoint.schemes?.any { schema ->
                     schema.contains(providerUrl)
